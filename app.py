@@ -1,6 +1,8 @@
 import streamlit as st
 
+
 # ---------------- PAGE CONFIG ----------------
+
 st.set_page_config(
     page_title="Abdullah Mehmood | Portfolio",
     page_icon="💻",
@@ -8,7 +10,8 @@ st.set_page_config(
 )
 
 
-# ---------------- CSS ----------------
+# ---------------- CUSTOM CSS ----------------
+
 st.markdown("""
 <style>
 
@@ -31,81 +34,74 @@ h1,h2,h3,h4{
 }
 
 
-/* Navbar */
 .navbar{
+
     background:#111;
     padding:20px;
-    border-bottom:1px solid #262626;
     text-align:center;
+    border-bottom:1px solid #262626;
+
 }
 
 
 .logo{
-    font-size:30px;
+
+    font-size:32px;
+    color:#d31820;
     font-weight:700;
-    color:#d31820;
-}
-<p class="greeting">Hi, I&apos;m</p>
 
-/* Hero */
-
-.hero-title{
-    font-size:70px;
-    font-weight:700;
-    color:#d31820;
 }
 
-
-.hero-tag{
-    color:#d31820;
-    font-weight:600;
-}
 
 
 .card{
 
-    background:#141414;
-    border:1px solid #262626;
-    padding:25px;
-    border-radius:12px;
-    margin-bottom:20px;
+background:#141414;
+border:1px solid #262626;
+padding:25px;
+border-radius:12px;
+margin:15px 0;
 
 }
 
 
 .card:hover{
-    border-color:#d31820;
+
+border-color:#d31820;
+
 }
 
 
-.badge{
 
+.tag{
+
+display:inline-block;
 background:#1f1f1f;
 padding:8px 15px;
-border-radius:20px;
-display:inline-block;
 margin:5px;
+border-radius:20px;
 font-size:13px;
 
 }
 
 
-.project-link{
+
+.project-btn{
 
 background:#d31820;
-padding:10px 20px;
-border-radius:5px;
 color:white;
+padding:10px 18px;
+border-radius:5px;
 text-decoration:none;
 
 }
 
 
-.small{
-color:#a0a0a0;
-font-size:14px;
-}
+.gray{
 
+color:#aaa;
+
+}
 
 
 .footer{
@@ -119,12 +115,12 @@ color:#aaa;
 
 
 </style>
-
 """, unsafe_allow_html=True)
 
 
 
 # ---------------- HEADER ----------------
+
 
 st.markdown("""
 <div class="navbar">
@@ -134,60 +130,49 @@ ABDULLAH MEHMOOD
 </div>
 
 </div>
-""",unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
 
 
 # ---------------- HERO ----------------
 
 
-col1,col2,col3 = st.columns([1,1.2,0.8])
+left, right = st.columns([2,1])
 
 
-with col1:
+with left:
+
 
     st.markdown("""
-    <h1 class="hero-title">
-    Hi, I'm<br>
-    ABDULLAH
-    </h1>
+    
+<h1 style="font-size:60px;">
+Hi, I'm<br>
+ABDULLAH MEHMOOD
+</h1>
 
 
-    <h3 class="hero-tag">
-    BS IT STUDENT & AI TOOLS DEVELOPER
-    </h3>
+<h3 style="color:#d31820;">
+BS IT STUDENT & AI TOOLS DEVELOPER
+</h3>
 
 
-    <p class="small">
+<p class="gray">
 
-    I'm an IT student who loves building things for the web.
-    Currently learning HTML, CSS, JS, Python and Generative AI
-    to convert ideas into working applications.
+I'm an IT student who loves building things for the web.
+Currently learning HTML, CSS, JavaScript, Python and
+Generative AI to create useful applications.
 
-    </p>
-
-
-    📍 MULTAN CANTT, PAKISTAN
-
-    """,unsafe_allow_html=True)
+</p>
 
 
-
-with col2:
-
-    st.image(
-        "assets/Abdullah.jpeg",
-        width=350
-    )
+📍 MULTAN CANTT, PAKISTAN
 
 
-    st.info(
-        "✨ Turning ideas into functional AI web apps."
-    )
+""", unsafe_allow_html=True)
 
 
 
-with col3:
+with right:
 
 
     st.markdown("""
@@ -215,9 +200,7 @@ with col3:
 
 </div>
 
-
-""",unsafe_allow_html=True)
-
+""", unsafe_allow_html=True)
 
 
 
@@ -226,15 +209,15 @@ with col3:
 
 st.divider()
 
+
 st.header("FEATURED PROJECTS")
 
 
 projects=[
 
-
 (
 "AI Research Paper Summarizer & Plagiarism Corrector",
-"Python | Streamlit | GPT-4 API",
+"Python | Streamlit | GPT API",
 "https://ai-driven-research-paper-summarizer-plagiarism-corrector-9pdyf.streamlit.app/"
 ),
 
@@ -255,31 +238,35 @@ projects=[
 ]
 
 
+for title,tech,link in projects:
 
-for name,tech,link in projects:
 
     st.markdown(f"""
 
 <div class="card">
 
-<h3>{name}</h3>
 
-<p class="small">
+<h3>{title}</h3>
+
+
+<p class="gray">
 
 {tech}
 
 </p>
 
 
-<a class="project-link" href="{link}" target="_blank">
+<a class="project-btn" href="{link}" target="_blank">
 
 LAUNCH LIVE APP
 
 </a>
 
+
 </div>
 
-""",unsafe_allow_html=True)
+
+""", unsafe_allow_html=True)
 
 
 
@@ -289,25 +276,28 @@ LAUNCH LIVE APP
 
 st.divider()
 
-col1,col2=st.columns(2)
 
+col1,col2 = st.columns(2)
 
 
 with col1:
+
 
     st.header("EDUCATION")
 
 
     st.markdown("""
+
 <div class="card">
 
-<b>2024-2028</b>
+<b>2024 - 2028</b>
 
-<h4>
+<h3>
 BS Information Technology
-</h4>
+</h3>
 
 University of Education Lahore
+<br>
 Multan Campus
 
 <br><br>
@@ -318,9 +308,10 @@ Multan Campus
 </div>
 
 
+
 <div class="card">
 
-<h4>F.Sc Pre Engineering</h4>
+<h3>F.Sc Pre Engineering</h3>
 
 Govt Graduate College of Science Multan
 
@@ -328,14 +319,16 @@ Govt Graduate College of Science Multan
 </div>
 
 
+
 <div class="card">
 
-<h4>Matric Science</h4>
+<h3>Matric Science</h3>
 
 FG Public School Multan Cantt
 
 
 </div>
+
 
 """,unsafe_allow_html=True)
 
@@ -348,6 +341,7 @@ with col2:
 
 
     skills=[
+
     "HTML5",
     "CSS3",
     "JavaScript",
@@ -361,16 +355,51 @@ with col2:
     "Prompt Engineering",
     "Digital Marketing",
     "E-Commerce"
+
     ]
 
 
     for skill in skills:
 
         st.markdown(
-        f'<span class="badge">{skill}</span>',
-        unsafe_allow_html=True
+            f'<span class="tag">{skill}</span>',
+            unsafe_allow_html=True
         )
 
+
+
+# ---------------- EXPERIENCE ----------------
+
+
+st.divider()
+
+
+st.header("WORK EXPERIENCE")
+
+
+experience=[
+
+"Store Backup Associate — Sapphire (Jun 2025 - Jul 2025)",
+
+"Back Store Associate — Outfitters (Jul 2025 - Aug 2025)",
+
+"Front of House Staff — Al-Kaif Restaurant",
+
+"Self-Employed Online Marketer — Freelance / E-Commerce"
+
+]
+
+
+for item in experience:
+
+    st.markdown(
+    f"""
+    <div class="card">
+    {item}
+    </div>
+    """,
+    unsafe_allow_html=True
+    )
 
 
 
@@ -386,7 +415,7 @@ st.header("LET'S WORK TOGETHER")
 st.write(
 """
 Currently open for Web Development,
-AI projects, Freelancing and Internship opportunities.
+AI Projects, Freelancing and Internship opportunities.
 """
 )
 
@@ -396,14 +425,21 @@ st.success(
 )
 
 
+
 st.markdown("""
+
 📧 abdullahmehmood2n4l@gmail.com
+
+<br>
 
 📞 0326 7636648
 
-📍 Multan Cantt Pakistan
+<br>
 
-""")
+📍 Multan Cantt, Pakistan
+
+""", unsafe_allow_html=True)
+
 
 
 st.markdown("""
@@ -414,4 +450,4 @@ st.markdown("""
 
 </div>
 
-""",unsafe_allow_html=True)
+""", unsafe_allow_html=True)
