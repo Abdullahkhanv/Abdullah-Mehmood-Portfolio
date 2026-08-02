@@ -310,7 +310,7 @@ with col_left:
             <h1 class="hero-main-name">ABDULLAH<br>MEHMOOD</h1>
             <p class="hero-role-tag">BS IT STUDENT & AI TOOLS DEVELOPER</p>
             <p class="hero-bio">
-                I'm an IT student and very passionate about building application for the web. I recently took a short course on local e-commerce, giving me hands-on experience in online store setup and management. Always learning and have a very good command into HTML, CSS, JS, Python, and generative AI to turn ideas into working projects.
+               IT student with a strong passion for web application development and hands-on experience in HTML, CSS, JavaScript, and Python. Completed a specialized course in e-commerce, gaining practical skills in online store setup, product management, and store operations. Proficient in leveraging generative AI tools to accelerate development and turn ideas into functional projects. Committed to continuous learning, with a growing foundation in front-end and back-end web technologies. Seeking to apply technical skills and problem-solving ability in an entry-level web development or IT support role.
             </p>
             <p class="hero-location"><span>📍</span> MULTAN CANTT, PAKISTAN</p>
         </div>
