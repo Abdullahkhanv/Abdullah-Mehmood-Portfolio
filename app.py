@@ -435,7 +435,7 @@ with col_s2:
     experience = [
         "Store Backup Associate - Sapphire (Jun 2025 - Jul 2025)",
         "Back Store Associate - Outfitters (Jul 2025 - Aug 2025)",
-        "Front of House Staff - Al-Kaif Restaurant",
+        "IT Support Operator - Al-Kaif Restaurant",
         "Self Employed Online Marketer - Freelance / E-Commerce"
     ]
     for exp in experience:
