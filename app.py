@@ -1,4 +1,6 @@
 import streamlit as st
+import requests
+from streamlit_lottie import st_lottie
 
 # ---------------- PAGE CONFIG ----------------
 
@@ -9,6 +11,19 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+# Helper function to load Lottie JSON from URL
+def load_lottieurl(url: str):
+    try:
+        r = requests.get(url)
+        if r.status_code != 200:
+            return None
+        return r.json()
+    except:
+        return None
+
+# Load Lottie Animations
+lottie_coder = load_lottieurl("https://assets5.lottiefiles.com/packages/lf20_fcfjwiyb.json")
+lottie_contact = load_lottieurl("https://assets9.lottiefiles.com/packages/lf20_u25cckyh.json")
 
 # ---------------- CUSTOM CSS & ANIMATIONS ----------------
 
@@ -23,14 +38,14 @@ st.markdown(
         scroll-behavior: smooth;
     }
 
-    /* Overall Dark Theme */
+    /* Dark Theme Base */
     .stApp {
         background-color: #0b0b0b !important;
         color: white;
         font-family: 'Poppins', sans-serif;
     }
 
-    /* Hide Streamlit Native Header Bar */
+    /* Hide Streamlit Native Header */
     header[data-testid="stHeader"] {
         display: none !important;
     }
@@ -38,6 +53,22 @@ st.markdown(
     .block-container {
         padding-top: 5.5rem !important;
         padding-bottom: 3rem !important;
+    }
+
+    /* --- ENTRANCE ANIMATIONS --- */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in {
+        animation: fadeInUp 0.8s ease-out forwards;
     }
 
     /* --- TOP NAVIGATION BAR --- */
@@ -85,7 +116,6 @@ st.markdown(
         transition: all 0.3s ease;
     }
 
-    /* Animated underline on nav link hover */
     .nav-links a::after {
         content: '';
         position: absolute;
@@ -106,7 +136,7 @@ st.markdown(
         width: 100%;
     }
 
-    /* --- HERO BACKGROUND TEXT --- */
+    /* --- HERO BACKGROUND WATERMARK --- */
     .hero-bg-wrapper {
         position: relative;
         text-align: center;
@@ -124,6 +154,7 @@ st.markdown(
         letter-spacing: 4px;
         line-height: 0.8;
         margin: 0;
+        animation: fadeInUp 1s ease-out;
     }
 
     /* --- HERO DETAILS --- */
@@ -169,26 +200,6 @@ st.markdown(
         color: #d31820;
     }
 
-    /* --- PROFILE FRAME --- */
-    .profile-frame {
-        background: #141414;
-        border: 1px solid #262626;
-        border-radius: 12px;
-        height: 420px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #a0a0a0;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-        transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
-    }
-
-    .profile-frame:hover {
-        transform: translateY(-8px) scale(1.01);
-        border-color: #d31820;
-        box-shadow: 0 15px 35px rgba(211, 24, 32, 0.25);
-    }
-
     /* --- FLOATING BADGE --- */
     .floating-badge {
         background: rgba(20, 20, 20, 0.9);
@@ -212,7 +223,7 @@ st.markdown(
         color: #d31820;
     }
 
-    /* --- METRIC CARDS ANIMATION --- */
+    /* --- METRIC CARDS --- */
     div[data-testid="stMetric"] {
         background: #141414;
         padding: 20px;
@@ -227,7 +238,7 @@ st.markdown(
         box-shadow: 0 10px 25px rgba(211, 24, 32, 0.3);
     }
 
-    /* --- BUTTON & LINK HOVER ANIMATIONS --- */
+    /* --- BUTTONS --- */
     div.stButton > button, div[data-testid="stLinkButton"] > a {
         background-color: #d31820 !important;
         color: white !important;
@@ -245,7 +256,7 @@ st.markdown(
         background-color: #ff1f28 !important;
     }
 
-    /* --- WORK EXPERIENCE BOX HOVER --- */
+    /* --- WORK EXPERIENCE BOXES --- */
     div[data-baseweb="notification"] {
         background-color: #141414 !important;
         border-left: 4px solid #d31820 !important;
@@ -258,7 +269,7 @@ st.markdown(
         box-shadow: 0 5px 20px rgba(211, 24, 32, 0.3);
     }
 
-    /* --- SKILL PILLS ANIMATION --- */
+    /* --- SKILL PILLS --- */
     .skill-tag {
         background: #1f1f1f;
         color: #e0e0e0;
@@ -280,7 +291,7 @@ st.markdown(
         cursor: pointer;
     }
 
-    /* Pulsing Status Badge */
+    /* --- PULSING STATUS BADGE --- */
     @keyframes pulse {
         0% { box-shadow: 0 0 0 0 rgba(211, 24, 32, 0.7); }
         70% { box-shadow: 0 0 0 14px rgba(211, 24, 32, 0); }
@@ -305,7 +316,7 @@ st.markdown(
     }
     </style>
 
-    <!-- FIXED TOP NAVBAR -->
+    <!-- NAVIGATION BAR -->
     <div class="custom-navbar">
         <div class="nav-logo">ABDULLAH MEHMOOD</div>
         <ul class="nav-links">
@@ -341,7 +352,7 @@ col_left, col_center, col_right = st.columns([1.2, 1.1, 0.8])
 with col_left:
     st.markdown(
         """
-        <div id="about">
+        <div id="about" class="animate-fade-in">
             <p class="greeting-text">Hi, I'm</p>
             <h1 class="hero-main-name">ABDULLAH<br>MEHMOOD</h1>
             <p class="hero-role-tag">BS IT STUDENT & AI TOOLS DEVELOPER</p>
@@ -355,14 +366,14 @@ with col_left:
     )
 
 with col_center:
+    # Live Vector Animation replace center frame
+    if lottie_coder:
+        st_lottie(lottie_coder, height=350, key="coder_animation")
+    else:
+        st.markdown("<div style='height:350px;'></div>", unsafe_allow_html=True)
+
     st.markdown(
         """
-        <div class="profile-frame">
-            <div style="text-align:center;">
-                <p style="font-size: 45px; margin:0;">👤</p>
-                <p style="font-weight:600; font-size:18px; margin-top:5px;">Abdullah Mehmood</p>
-            </div>
-        </div>
         <div class="floating-badge">
             <span>🪄</span> Turning ideas into functional AI web apps.
         </div>
@@ -481,22 +492,27 @@ with col_s2:
 
 st.write("---")
 st.markdown('<div id="contact"></div>', unsafe_allow_html=True)
-st.header("📫 Let's Work Together")
 
-st.write(
-    """
-    Currently available for web development projects, AI tools, freelancing, and internship opportunities.
-    """
-)
+col_c1, col_c2 = st.columns([1.5, 1])
 
-st.markdown('<div class="status-badge">🟢 AVAILABLE FOR FREELANCE & INTERNSHIP</div>', unsafe_allow_html=True)
+with col_c1:
+    st.header("📫 Let's Work Together")
+    st.write(
+        """
+        Currently available for web development projects, AI tools, freelancing, and internship opportunities.
+        """
+    )
+    st.markdown('<div class="status-badge">🟢 AVAILABLE FOR FREELANCE & INTERNSHIP</div>', unsafe_allow_html=True)
+    st.write(
+        """
+        📧 **Email:** abdullahmehmood2n4l@gmail.com  
+        📞 **Phone:** 0326 7636648  
+        📍 **Location:** Multan Cantt, Pakistan  
+        """
+    )
 
-st.write(
-    """
-    📧 **Email:** abdullahmehmood2n4l@gmail.com  
-    📞 **Phone:** 0326 7636648  
-    📍 **Location:** Multan Cantt, Pakistan  
-    """
-)
+with col_c2:
+    if lottie_contact:
+        st_lottie(lottie_contact, height=220, key="contact_animation")
 
 st.caption("© 2026 Abdullah Mehmood. All Rights Reserved.")
