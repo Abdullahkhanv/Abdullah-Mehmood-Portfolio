@@ -1,6 +1,6 @@
 import streamlit as st
 
-# ---------------- PAGE SETTINGS ----------------
+# ---------------- PAGE CONFIG ----------------
 
 st.set_page_config(
     page_title="Abdullah Mehmood | Portfolio",
@@ -10,7 +10,7 @@ st.set_page_config(
 )
 
 
-# ---------------- CUSTOM CSS FOR NAVBAR, HERO, & ANIMATIONS ----------------
+# ---------------- CUSTOM CSS & ANIMATIONS ----------------
 
 st.markdown(
     """
@@ -18,20 +18,25 @@ st.markdown(
     /* Google Fonts */
     @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Poppins:wght@300;400;600;700&display=swap');
 
-    /* Overall Theme */
+    /* Smooth Scrolling for Navigation Links */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Overall Dark Theme */
     .stApp {
         background-color: #0b0b0b !important;
         color: white;
         font-family: 'Poppins', sans-serif;
     }
 
-    /* Hide Streamlit Header & Footer Padding */
+    /* Hide Streamlit Native Header Bar */
     header[data-testid="stHeader"] {
         display: none !important;
     }
     
     .block-container {
-        padding-top: 5rem !important;
+        padding-top: 5.5rem !important;
         padding-bottom: 3rem !important;
     }
 
@@ -43,7 +48,7 @@ st.markdown(
         width: 100%;
         height: 70px;
         background: rgba(11, 11, 11, 0.95);
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(12px);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -75,14 +80,33 @@ st.markdown(
         font-weight: 600;
         letter-spacing: 1px;
         text-transform: uppercase;
-        transition: color 0.3s ease;
+        position: relative;
+        padding: 5px 0;
+        transition: all 0.3s ease;
+    }
+
+    /* Animated underline on nav link hover */
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0%;
+        height: 2px;
+        background-color: #d31820;
+        transition: width 0.3s ease;
     }
 
     .nav-links a:hover {
         color: #ffffff;
+        transform: translateY(-2px);
     }
 
-    /* --- HERO BACKGROUND "PORTFOLIO" TEXT --- */
+    .nav-links a:hover::after {
+        width: 100%;
+    }
+
+    /* --- HERO BACKGROUND TEXT --- */
     .hero-bg-wrapper {
         position: relative;
         text-align: center;
@@ -95,14 +119,14 @@ st.markdown(
         font-family: 'Oswald', sans-serif;
         font-size: 14vw;
         color: #d31820;
-        opacity: 0.18;
+        opacity: 0.15;
         font-weight: 700;
         letter-spacing: 4px;
         line-height: 0.8;
         margin: 0;
     }
 
-    /* --- HERO TEXT & DETAILS --- */
+    /* --- HERO DETAILS --- */
     .greeting-text {
         font-style: italic;
         font-size: 22px;
@@ -145,7 +169,7 @@ st.markdown(
         color: #d31820;
     }
 
-    /* --- IMAGE FRAME --- */
+    /* --- PROFILE FRAME --- */
     .profile-frame {
         background: #141414;
         border: 1px solid #262626;
@@ -156,15 +180,16 @@ st.markdown(
         align-items: center;
         color: #a0a0a0;
         box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-        transition: transform 0.4s ease, border-color 0.4s ease;
+        transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
     }
 
     .profile-frame:hover {
-        transform: translateY(-5px);
+        transform: translateY(-8px) scale(1.01);
         border-color: #d31820;
+        box-shadow: 0 15px 35px rgba(211, 24, 32, 0.25);
     }
 
-    /* --- QUOTE BADGE --- */
+    /* --- FLOATING BADGE --- */
     .floating-badge {
         background: rgba(20, 20, 20, 0.9);
         border: 1px solid #262626;
@@ -175,25 +200,31 @@ st.markdown(
         text-align: center;
         margin: 15px auto;
         width: max-content;
+        transition: all 0.3s ease;
+    }
+
+    .floating-badge:hover {
+        border-color: #d31820;
+        transform: translateY(-3px);
     }
 
     .floating-badge span {
         color: #d31820;
     }
 
-    /* --- METRIC CARDS --- */
+    /* --- METRIC CARDS ANIMATION --- */
     div[data-testid="stMetric"] {
         background: #141414;
         padding: 20px;
         border-radius: 12px;
         border: 1px solid #262626;
-        transition: all 0.4s ease;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     div[data-testid="stMetric"]:hover {
-        transform: translateY(-5px);
+        transform: translateY(-8px) scale(1.03);
         border-color: #d31820;
-        box-shadow: 0 10px 25px rgba(211, 24, 32, 0.25);
+        box-shadow: 0 10px 25px rgba(211, 24, 32, 0.3);
     }
 
     /* --- BUTTON & LINK HOVER ANIMATIONS --- */
@@ -209,8 +240,8 @@ st.markdown(
     }
 
     div.stButton > button:hover, div[data-testid="stLinkButton"] > a:hover {
-        transform: translateY(-3px) scale(1.02);
-        box-shadow: 0px 8px 20px rgba(211, 24, 32, 0.5) !important;
+        transform: translateY(-4px) scale(1.03);
+        box-shadow: 0px 10px 25px rgba(211, 24, 32, 0.6) !important;
         background-color: #ff1f28 !important;
     }
 
@@ -223,35 +254,36 @@ st.markdown(
     }
 
     div[data-baseweb="notification"]:hover {
-        transform: translateX(8px);
-        box-shadow: 0 5px 15px rgba(211, 24, 32, 0.2);
+        transform: translateX(10px) scale(1.01);
+        box-shadow: 0 5px 20px rgba(211, 24, 32, 0.3);
     }
 
-    /* --- SKILL PILLS --- */
+    /* --- SKILL PILLS ANIMATION --- */
     .skill-tag {
         background: #1f1f1f;
         color: #e0e0e0;
         padding: 8px 16px;
         border-radius: 20px;
-        margin: 4px;
+        margin: 5px;
         display: inline-block;
         border: 1px solid #333;
         font-size: 13px;
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .skill-tag:hover {
         background: #d31820;
         color: white;
         border-color: #d31820;
-        transform: scale(1.08);
+        transform: translateY(-3px) scale(1.1);
+        box-shadow: 0 5px 15px rgba(211, 24, 32, 0.4);
         cursor: pointer;
     }
 
-    /* Pulsing Badge */
+    /* Pulsing Status Badge */
     @keyframes pulse {
         0% { box-shadow: 0 0 0 0 rgba(211, 24, 32, 0.7); }
-        70% { box-shadow: 0 0 0 12px rgba(211, 24, 32, 0); }
+        70% { box-shadow: 0 0 0 14px rgba(211, 24, 32, 0); }
         100% { box-shadow: 0 0 0 0 rgba(211, 24, 32, 0); }
     }
 
@@ -265,6 +297,11 @@ st.markdown(
         animation: pulse 2s infinite;
         text-align: center;
         margin: 15px 0;
+        transition: transform 0.3s ease;
+    }
+
+    .status-badge:hover {
+        transform: scale(1.05);
     }
     </style>
 
@@ -287,10 +324,9 @@ st.markdown(
 
 # ---------------- HERO SECTION ----------------
 
-# Anchor target for navigation
 st.markdown('<div id="home"></div>', unsafe_allow_html=True)
 
-# Giant Background Text
+# Giant Watermark Text
 st.markdown(
     """
     <div class="hero-bg-wrapper">
@@ -310,7 +346,7 @@ with col_left:
             <h1 class="hero-main-name">ABDULLAH<br>MEHMOOD</h1>
             <p class="hero-role-tag">BS IT STUDENT & AI TOOLS DEVELOPER</p>
             <p class="hero-bio">
-               IT student with a strong passion for web application development and hands-on experience in HTML, CSS, JavaScript, and Python. Completed a specialized course in e-commerce, gaining practical skills in online store setup, product management, and store operations. Proficient in leveraging generative AI tools to accelerate development and turn ideas into functional projects. Committed to continuous learning, with a growing foundation in front-end and back-end web technologies. Seeking to apply technical skills and problem-solving ability in an entry-level web development or IT support role.
+                I'm an IT student who loves building things for the web. I recently took a short course on local e-commerce, giving me hands-on experience in online store setup and management. Always learning — currently deep into HTML, CSS, JS, Python, and generative AI to turn ideas into working projects.
             </p>
             <p class="hero-location"><span>📍</span> MULTAN CANTT, PAKISTAN</p>
         </div>
@@ -319,13 +355,12 @@ with col_left:
     )
 
 with col_center:
-    # Frame for image or placeholder
     st.markdown(
         """
         <div class="profile-frame">
             <div style="text-align:center;">
-                <p style="font-size: 40px; margin:0;">👤</p>
-                <p>Abdullah Mehmood</p>
+                <p style="font-size: 45px; margin:0;">👤</p>
+                <p style="font-weight:600; font-size:18px; margin-top:5px;">Abdullah Mehmood</p>
             </div>
         </div>
         <div class="floating-badge">
@@ -371,11 +406,11 @@ for project in projects:
     with st.container():
         st.subheader(project["name"])
         st.caption(f"🛠️ **Tech:** {project['tech']}")
-        st.link_button("Launch Live App ↗", project["url"])
+        st.link_button("LAUNCH LIVE APP ↗", project["url"])
         st.write("")
 
 
-# ---------------- EDUCATION & CERTIFICATIONS ----------------
+# ---------------- EDUCATION SECTION ----------------
 
 st.write("---")
 st.markdown('<div id="education"></div>', unsafe_allow_html=True)
@@ -413,7 +448,7 @@ with col2:
     )
 
 
-# ---------------- SKILLS & WORK EXPERIENCE ----------------
+# ---------------- SKILLS & EXPERIENCE SECTION ----------------
 
 st.write("---")
 st.markdown('<div id="skills"></div>', unsafe_allow_html=True)
@@ -435,7 +470,7 @@ with col_s2:
     experience = [
         "Store Backup Associate - Sapphire (Jun 2025 - Jul 2025)",
         "Back Store Associate - Outfitters (Jul 2025 - Aug 2025)",
-        "IT Support Operator - Al-Kaif Restaurant",
+        "Front of House Staff - Al-Kaif Restaurant",
         "Self Employed Online Marketer - Freelance / E-Commerce"
     ]
     for exp in experience:
