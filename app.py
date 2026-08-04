@@ -1,6 +1,9 @@
-import streamlit as st
+import os
+from PIL import Image
 import requests
+import streamlit as st
 from streamlit_lottie import st_lottie
+from rembg import remove
 
 # ---------------- PAGE CONFIG ----------------
 
@@ -8,22 +11,44 @@ st.set_page_config(
     page_title="Abdullah Mehmood | Portfolio",
     page_icon="💻",
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="collapsed",
 )
+
 
 # Helper function to load Lottie JSON from URL
 def load_lottieurl(url: str):
     try:
-        r = requests.get(url)
+        r = requests.get(url, timeout=5)
         if r.status_code != 200:
             return None
         return r.json()
-    except:
+    except Exception:
         return None
 
-# Load Lottie Animations
-lottie_coder = load_lottieurl("https://assets5.lottiefiles.com/packages/lf20_fcfjwiyb.json")
-lottie_contact = load_lottieurl("https://assets9.lottiefiles.com/packages/lf20_u25cckyh.json")
+
+# Function to process image and remove background
+@st.cache_data
+def load_and_remove_bg(image_path: str):
+    if os.path.exists(image_path):
+        try:
+            input_img = Image.open(image_path)
+            output_img = remove(input_img)
+            return output_img
+        except Exception:
+            return None
+    return None
+
+
+# Load Lottie Animations (Updated Working Links)
+lottie_coder = load_lottieurl(
+    "https://assets5.lottiefiles.com/packages/lf20_fcfjwiyb.json"
+)
+lottie_skills = load_lottieurl(
+    "https://lottie.host/82a61361-949e-41a4-969f-39a7b973fa41/rLd76Y5i0f.json"
+)
+lottie_contact = load_lottieurl(
+    "https://assets9.lottiefiles.com/packages/lf20_u25cckyh.json"
+)
 
 # ---------------- CUSTOM CSS & ANIMATIONS ----------------
 
@@ -33,19 +58,16 @@ st.markdown(
     /* Google Fonts */
     @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Poppins:wght@300;400;600;700&display=swap');
 
-    /* Smooth Scrolling for Navigation Links */
     html {
         scroll-behavior: smooth;
     }
 
-    /* Dark Theme Base */
     .stApp {
         background-color: #0b0b0b !important;
         color: white;
         font-family: 'Poppins', sans-serif;
     }
 
-    /* Hide Streamlit Native Header */
     header[data-testid="stHeader"] {
         display: none !important;
     }
@@ -55,7 +77,7 @@ st.markdown(
         padding-bottom: 3rem !important;
     }
 
-    /* --- ENTRANCE ANIMATIONS --- */
+    /* --- ANIMATIONS --- */
     @keyframes fadeInUp {
         from {
             opacity: 0;
@@ -140,18 +162,18 @@ st.markdown(
     .hero-bg-wrapper {
         position: relative;
         text-align: center;
-        margin-bottom: -120px;
+        margin-bottom: -60px;
         z-index: 0;
         pointer-events: none;
     }
 
     .hero-bg-text {
         font-family: 'Oswald', sans-serif;
-        font-size: 14vw;
+        font-size: 13vw;
         color: #d31820;
-        opacity: 0.15;
+        opacity: 0.12;
         font-weight: 700;
-        letter-spacing: 4px;
+        letter-spacing: 6px;
         line-height: 0.8;
         margin: 0;
         animation: fadeInUp 1s ease-out;
@@ -223,7 +245,7 @@ st.markdown(
         color: #d31820;
     }
 
-    /* --- METRIC CARDS --- */
+    /* --- METRICS & CARDS --- */
     div[data-testid="stMetric"] {
         background: #141414;
         padding: 20px;
@@ -256,20 +278,7 @@ st.markdown(
         background-color: #ff1f28 !important;
     }
 
-    /* --- WORK EXPERIENCE BOXES --- */
-    div[data-baseweb="notification"] {
-        background-color: #141414 !important;
-        border-left: 4px solid #d31820 !important;
-        color: white !important;
-        transition: all 0.3s ease-in-out;
-    }
-
-    div[data-baseweb="notification"]:hover {
-        transform: translateX(10px) scale(1.01);
-        box-shadow: 0 5px 20px rgba(211, 24, 32, 0.3);
-    }
-
-    /* --- SKILL PILLS --- */
+    /* --- SKILL TAGS --- */
     .skill-tag {
         background: #1f1f1f;
         color: #e0e0e0;
@@ -291,7 +300,7 @@ st.markdown(
         cursor: pointer;
     }
 
-    /* --- PULSING STATUS BADGE --- */
+    /* --- STATUS BADGE --- */
     @keyframes pulse {
         0% { box-shadow: 0 0 0 0 rgba(211, 24, 32, 0.7); }
         70% { box-shadow: 0 0 0 14px rgba(211, 24, 32, 0); }
@@ -308,11 +317,6 @@ st.markdown(
         animation: pulse 2s infinite;
         text-align: center;
         margin: 15px 0;
-        transition: transform 0.3s ease;
-    }
-
-    .status-badge:hover {
-        transform: scale(1.05);
     }
     </style>
 
@@ -329,7 +333,7 @@ st.markdown(
         </ul>
     </div>
     """,
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 
 
@@ -337,14 +341,14 @@ st.markdown(
 
 st.markdown('<div id="home"></div>', unsafe_allow_html=True)
 
-# Giant Watermark Text
+# Visible Portfolio Watermark
 st.markdown(
     """
     <div class="hero-bg-wrapper">
         <h1 class="hero-bg-text">PORTFOLIO</h1>
     </div>
     """,
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 
 col_left, col_center, col_right = st.columns([1.2, 1.1, 0.8])
@@ -362,15 +366,24 @@ with col_left:
             <p class="hero-location"><span>📍</span> MULTAN CANTT, PAKISTAN</p>
         </div>
         """,
-        unsafe_allow_html=True
+        unsafe_allow_html=True,
     )
 
 with col_center:
-    # Live Vector Animation replace center frame
-    if lottie_coder:
+    # Processed Image with background removed
+    image_path = (
+        r"C:\Users\user\OneDrive\Documents\projectClaud.ai\img\IM.jpeg"
+    )
+    processed_img = load_and_remove_bg(image_path)
+
+    if processed_img:
+        st.image(processed_img, use_container_width=True)
+    elif lottie_coder:
         st_lottie(lottie_coder, height=350, key="coder_animation")
     else:
-        st.markdown("<div style='height:350px;'></div>", unsafe_allow_html=True)
+        st.markdown(
+            "<div style='height:350px;'></div>", unsafe_allow_html=True
+        )
 
     st.markdown(
         """
@@ -378,7 +391,7 @@ with col_center:
             <span>🪄</span> Turning ideas into functional AI web apps.
         </div>
         """,
-        unsafe_allow_html=True
+        unsafe_allow_html=True,
     )
 
 with col_right:
@@ -399,18 +412,18 @@ projects = [
     {
         "name": "01. AI Research Paper Summarizer & Plagiarism Corrector",
         "tech": "Python | Streamlit | GPT API",
-        "url": "https://ai-driven-research-paper-summarizer-plagiarism-corrector-9pdyf.streamlit.app/"
+        "url": "https://ai-driven-research-paper-summarizer-plagiarism-corrector-9pdyf.streamlit.app/",
     },
     {
         "name": "02. AI Mentor For Learning Personalized Assistant",
         "tech": "Python | Streamlit | AI Chatbot",
-        "url": "https://ai-mentor-for-learning-personalized-learning-assistant-odcr4p9.streamlit.app/"
+        "url": "https://ai-mentor-for-learning-personalized-learning-assistant-odcr4p9.streamlit.app/",
     },
     {
         "name": "03. AI Code Reviewer & Bug Explainer",
         "tech": "Python | Streamlit | LLM",
-        "url": "https://ai-powered-code-reviewer-bug-explainer-uus4oprxmhrasquzwbqwzb.streamlit.app/"
-    }
+        "url": "https://ai-powered-code-reviewer-bug-explainer-uus4oprxmhrasquzwbqwzb.streamlit.app/",
+    },
 ]
 
 for project in projects:
@@ -469,11 +482,23 @@ col_s1, col_s2 = st.columns(2)
 with col_s1:
     st.header("🛠️ Skills")
     skills_list = [
-        "HTML5", "CSS3", "JavaScript", "Bootstrap", "React", 
-        "Python", "SQL", "Git", "GitHub", "Figma", 
-        "Prompt Engineering", "Digital Marketing", "E-Commerce Operations"
+        "HTML5",
+        "CSS3",
+        "JavaScript",
+        "Bootstrap",
+        "React",
+        "Python",
+        "SQL",
+        "Git",
+        "GitHub",
+        "Figma",
+        "Prompt Engineering",
+        "Digital Marketing",
+        "E-Commerce Operations",
     ]
-    badges_html = "".join([f'<span class="skill-tag">{skill}</span>' for skill in skills_list])
+    badges_html = "".join(
+        [f'<span class="skill-tag">{skill}</span>' for skill in skills_list]
+    )
     st.markdown(badges_html, unsafe_allow_html=True)
 
 with col_s2:
@@ -482,7 +507,7 @@ with col_s2:
         "Store Backup Associate - Sapphire (Jun 2025 - Jul 2025)",
         "Back Store Associate - Outfitters (Jul 2025 - Aug 2025)",
         "Front of House Staff - Al-Kaif Restaurant",
-        "Self Employed Online Marketer - Freelance / E-Commerce"
+        "Self Employed Online Marketer - Freelance / E-Commerce",
     ]
     for exp in experience:
         st.info(exp)
@@ -502,7 +527,10 @@ with col_c1:
         Currently available for web development projects, AI tools, freelancing, and internship opportunities.
         """
     )
-    st.markdown('<div class="status-badge">🟢 AVAILABLE FOR FREELANCE & INTERNSHIP</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="status-badge">🟢 AVAILABLE FOR FREELANCE & INTERNSHIP</div>',
+        unsafe_allow_html=True,
+    )
     st.write(
         """
         📧 **Email:** abdullahmehmood2n4l@gmail.com  
